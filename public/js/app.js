@@ -1673,6 +1673,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3524,6 +3527,19 @@ var render = function() {
                 [
                   _c("router-link", { attrs: { to: "/register" } }, [
                     _vm._v("REGISTER")
+                  ])
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.check
+            ? _c(
+                "li",
+                { staticClass: "navbar__item" },
+                [
+                  _c("router-link", { attrs: { to: "/recipes/create" } }, [
+                    _vm._v("CREATE")
                   ])
                 ],
                 1
@@ -17789,7 +17805,7 @@ function objectToFormData(obj, form, namespace) {
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
 
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
-	routes: [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_4__views_Recipe_Index_vue___default.a }, { path: '/recipes/:id/edit', component: __WEBPACK_IMPORTED_MODULE_6__views_Recipe_Form_vue___default.a, meta: { mode: 'edit' } }, { path: '/recipes/:id', component: __WEBPACK_IMPORTED_MODULE_5__views_Recipe_Show_vue___default.a }, { path: '/register', component: __WEBPACK_IMPORTED_MODULE_2__views_Auth_Register_vue___default.a }, { path: '/login', component: __WEBPACK_IMPORTED_MODULE_3__views_Auth_Login_vue___default.a }]
+	routes: [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_4__views_Recipe_Index_vue___default.a }, { path: '/recipes/create', component: __WEBPACK_IMPORTED_MODULE_6__views_Recipe_Form_vue___default.a, meta: { mode: 'create' } }, { path: '/recipes/:id/edit', component: __WEBPACK_IMPORTED_MODULE_6__views_Recipe_Form_vue___default.a, meta: { mode: 'edit' } }, { path: '/recipes/:id', component: __WEBPACK_IMPORTED_MODULE_5__views_Recipe_Show_vue___default.a }, { path: '/register', component: __WEBPACK_IMPORTED_MODULE_2__views_Auth_Register_vue___default.a }, { path: '/login', component: __WEBPACK_IMPORTED_MODULE_3__views_Auth_Login_vue___default.a }]
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (router);

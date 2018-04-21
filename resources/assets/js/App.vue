@@ -13,6 +13,9 @@
 					<router-link to="/register">REGISTER</router-link>
 				</li>
 				<li class="navbar__item" v-if="check">
+					<router-link to="/recipes/create">CREATE</router-link>
+				</li>
+				<li class="navbar__item" v-if="check">
 					<a href="#" @click.stop="logout">LOGOUT</a>
 				</li>
 			</ul>
