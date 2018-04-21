@@ -30,7 +30,7 @@ class RecipeController extends Controller
 
     public function create()
     {
-    	$form => Recipe::form();
+    	$form = Recipe::form();
 
     	return response()
     		->json([
@@ -113,7 +113,7 @@ class RecipeController extends Controller
 
     public function edit($id, Request $request)
     {
-    	$form = $request->user()->recipes()->
+    	$form = $request->user()->recipes()
     		->with([
     			'ingredients' => function($query) {
     				$query->get(['id', 'name', 'qty']);
@@ -128,7 +128,7 @@ class RecipeController extends Controller
 
     	return response()
     		->json([
-    			'form' = $form
+    			'form' => $form
     		]);
     }
 
@@ -163,7 +163,7 @@ class RecipeController extends Controller
     				->where('id', $ingredient->id)
     				->update($ingredient);
 
-    			$ingredientsUpdated[] = $ingredient['id']
+    			$ingredientsUpdated[] = $ingredient['id'];
 
     		} else {
     			//new
@@ -182,7 +182,7 @@ class RecipeController extends Controller
     				->where('id', $direction->id)
     				->update($direction);
 
-    			$directionsUpdated[] = $direction['id']
+    			$directionsUpdated[] = $direction['id'];
 
     		} else {
     			//new
@@ -201,7 +201,7 @@ class RecipeController extends Controller
     		//remove old image
 
     		File::delete( base_path('public/images/'.$recipe->image));
-    		$recipe->image = $filename
+    		$recipe->image = $filename;
     	}
 
 

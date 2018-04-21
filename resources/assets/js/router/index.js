@@ -13,7 +13,7 @@ const router = new VueRouter({
 		{path: '/register', component: Register},
 		{path: '/login', component: Login},
 
-		{path: '/recipes', component: RecipeIndex}
+		{path: '/', component: RecipeIndex}
 	]
 })
 
