@@ -1699,7 +1699,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		logout: function logout() {
 			var _this = this;
 
-			Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["b" /* post */])('/api/logout').then(function (res) {
+			Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["c" /* post */])('/api/logout').then(function (res) {
 				if (res.data.logged_out) {
 					__WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].remove();
 					__WEBPACK_IMPORTED_MODULE_0__helpers_flash__["a" /* default */].setSuccess('Bye!');
@@ -1770,7 +1770,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.isProcessing = true;
 			this.error = {};
 
-			Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["b" /* post */])('/api/login', this.form).then(function (res) {
+			Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["c" /* post */])('/api/login', this.form).then(function (res) {
 				if (res.data.authenticated) {
 					__WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].set(res.data.api_token, res.data.user_id);
 
@@ -1863,7 +1863,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.isProcessing = true;
 			this.error = {};
 
-			Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["b" /* post */])('/api/register', this.form).then(function (res) {
+			Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["c" /* post */])('/api/register', this.form).then(function (res) {
 				if (res.data.registered) {
 					__WEBPACK_IMPORTED_MODULE_1__helpers_flash__["a" /* default */].setSuccess('Acount created!');
 					_this.$router.push('/login');
@@ -1912,9 +1912,126 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	created: function created() {
 		var _this = this;
 
-		Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* get */])('/api/recipes').then(function (res) {
+		Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["b" /* get */])('/api/recipes').then(function (res) {
 			_this.recipes = res.data.recipes;
 		}).catch(function (err) {});
+	}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Recipe/Show.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store_auth__ = __webpack_require__("./resources/assets/js/store/auth.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_flash__ = __webpack_require__("./resources/assets/js/helpers/flash.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_api__ = __webpack_require__("./resources/assets/js/helpers/api.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			auth: __WEBPACK_IMPORTED_MODULE_0__store_auth__["a" /* default */].state,
+			isRemoving: false,
+			recipe: {
+				name: '',
+				image: '',
+				user: {
+					name: ''
+				},
+				ingredients: [],
+				directions: []
+			}
+		};
+	},
+	created: function created() {
+		var _this = this;
+
+		Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["b" /* get */])('/api/recipes/' + this.$route.params.id).then(function (res) {
+			_this.recipe = res.data.recipe;
+		});
+	},
+
+	methods: {
+		remove: function remove() {
+			var _this2 = this;
+
+			this.isRemoving = false;
+			Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["a" /* del */])('/api/recipes/' + this.$route.params.id).then(function (res) {
+				if (res.data.deleted) {
+					__WEBPACK_IMPORTED_MODULE_1__helpers_flash__["a" /* default */].setSuccess('Recipe deleted!');
+					_this2.$route.push('/');
+				}
+			});
+		}
+	},
+	computed: {
+		editable: function editable() {
+			return this.auth.api_token && auth.user_id === recipe.user_id;
+		}
 	}
 });
 
@@ -2511,6 +2628,123 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-08302b0a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Recipe/Show.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "recipe__show" }, [
+    _c("div", { staticClass: "recipe__row" }, [
+      _c("div", { staticClass: "recipe__image" }, [
+        _c("div", { staticClass: "recipe__box" }, [
+          _vm.recipe.image
+            ? _c("img", { attrs: { src: "/images/" + _vm.recipe.image } })
+            : _vm._e()
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "recipe__details" }, [
+        _c("div", { staticClass: "recipe__details__inner" }, [
+          _c("small", [_vm._v("Submitted by " + _vm._s(_vm.recipe.user.name))]),
+          _vm._v(" "),
+          _c("h1", { staticClass: "recipe__title" }, [
+            _vm._v(_vm._s(_vm.recipe.name))
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "recipe__description" }, [
+            _vm._v(_vm._s(_vm.recipe.description))
+          ]),
+          _vm._v(" "),
+          _vm.editable
+            ? _c(
+                "div",
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn__primary",
+                      attrs: { to: "/recipes/" + _vm.recipe.id + "/edit" }
+                    },
+                    [_vm._v("\n\t\t\t\t\t\tEdit\n\t\t\t\t\t")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn__danger",
+                      attrs: { disabled: _vm.isRemoving },
+                      on: { click: _vm.remove }
+                    },
+                    [_vm._v("Delete")]
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "recipe__row" }, [
+      _c("div", { staticClass: "recipe__ingredients" }, [
+        _c("div", { staticClass: "recipe__box" }, [
+          _c("h3", { staticClass: "recipe__sub_title" }, [
+            _vm._v("Ingredients")
+          ]),
+          _vm._v(" "),
+          _c(
+            "ul",
+            _vm._l(_vm.recipe.ingredients, function(ingredient) {
+              return _c("li", [
+                _c("span", [_vm._v(_vm._s(ingredient.name))]),
+                _vm._v(" "),
+                _c("span", [_vm._v(_vm._s(ingredient.qty))])
+              ])
+            })
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "recipe__directions" }, [
+        _c("div", { staticClass: "recipe__directions__inner" }, [
+          _c("h3", { staticClass: "recipe__sub_title" }, [
+            _vm._v("Directions")
+          ]),
+          _vm._v(" "),
+          _c(
+            "ul",
+            _vm._l(_vm.recipe.directions, function(direction, i) {
+              return _c("li", [
+                _c("p", [
+                  _c("strong", [_vm._v(_vm._s(i + 1))]),
+                  _vm._v(
+                    "\n\t\t\t\t\t\t\t" +
+                      _vm._s(direction.description) +
+                      "\n\t\t\t\t\t\t"
+                  )
+                ])
+              ])
+            })
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-08302b0a", module.exports)
+  }
+}
 
 /***/ }),
 
@@ -16638,8 +16872,9 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = get;
-/* harmony export (immutable) */ __webpack_exports__["b"] = post;
+/* harmony export (immutable) */ __webpack_exports__["b"] = get;
+/* harmony export (immutable) */ __webpack_exports__["c"] = post;
+/* harmony export (immutable) */ __webpack_exports__["a"] = del;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__("./node_modules/axios/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_auth__ = __webpack_require__("./resources/assets/js/store/auth.js");
@@ -16661,6 +16896,16 @@ function post(url, data) {
 		method: 'POST',
 		url: url,
 		data: data,
+		headers: {
+			'Authorization': 'Bearer ' + __WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].state.api_token
+		}
+	});
+}
+
+function del(url) {
+	return __WEBPACK_IMPORTED_MODULE_0_axios___default()({
+		method: 'DELETE',
+		url: url,
 		headers: {
 			'Authorization': 'Bearer ' + __WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].state.api_token
 		}
@@ -16719,6 +16964,9 @@ function post(url, data) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_Auth_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__views_Auth_Login_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_Recipe_Index_vue__ = __webpack_require__("./resources/assets/js/views/Recipe/Index.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_Recipe_Index_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__views_Recipe_Index_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_Recipe_Show_vue__ = __webpack_require__("./resources/assets/js/views/Recipe/Show.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_Recipe_Show_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__views_Recipe_Show_vue__);
+
 
 
 
@@ -16730,7 +16978,7 @@ function post(url, data) {
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
 
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
-	routes: [{ path: '/register', component: __WEBPACK_IMPORTED_MODULE_2__views_Auth_Register_vue___default.a }, { path: '/login', component: __WEBPACK_IMPORTED_MODULE_3__views_Auth_Login_vue___default.a }, { path: '/', component: __WEBPACK_IMPORTED_MODULE_4__views_Recipe_Index_vue___default.a }]
+	routes: [{ path: '/register', component: __WEBPACK_IMPORTED_MODULE_2__views_Auth_Register_vue___default.a }, { path: '/login', component: __WEBPACK_IMPORTED_MODULE_3__views_Auth_Login_vue___default.a }, { path: '/', component: __WEBPACK_IMPORTED_MODULE_4__views_Recipe_Index_vue___default.a }, { path: '/recipes/:id', component: __WEBPACK_IMPORTED_MODULE_5__views_Recipe_Show_vue___default.a }]
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (router);
@@ -16898,6 +17146,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-75f32878", Component.options)
   } else {
     hotAPI.reload("data-v-75f32878", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/views/Recipe/Show.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Recipe/Show.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-08302b0a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Recipe/Show.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/views/Recipe/Show.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-08302b0a", Component.options)
+  } else {
+    hotAPI.reload("data-v-08302b0a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
