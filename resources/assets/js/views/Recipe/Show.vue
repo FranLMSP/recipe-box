@@ -90,14 +90,14 @@
 					.then( res => {
 						if (res.data.deleted) {
 							Flash.setSuccess('Recipe deleted!')
-							this.$route.push('/')
+							this.$router.push('/')
 						}
 					})
 			}
 		},
 		computed: {
 			editable() {
-				return this.auth.api_token && auth.user_id === recipe.user_id
+				return this.auth.api_token && this.auth.user_id === this.recipe.user_id
 			}
 		}
 	}

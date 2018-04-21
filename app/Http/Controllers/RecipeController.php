@@ -134,13 +134,14 @@ class RecipeController extends Controller
 
     public function update($id, Request $request)
     {
+
     	$this->validate($request, [
     		'name' => 'required|max:255',
     		'description' => 'required|max:3000',
-    		'image' => 'required|image',
+    		'image' => 'image',
 
     		'ingredients' => 'required|array|min:1',
-    		'ingredients.*.id' => 'inreger|exists:recipe_ingredients',
+    		'ingredients.*.id' => 'integer|exists:recipe_ingredients',
     		'ingredients.*.name' => 'required|max:255',
     		'ingredients.*.qty' => 'required|max:255',
 
@@ -157,7 +158,7 @@ class RecipeController extends Controller
     	$ingredientsUpdated = [];
 
     	foreach ($request->ingredients as $ingredient) {
-    		if (isset($ingredient['id'])) {
+    		if (isset($ingredient->id)) {
     			//update
     			RecipeIngredient::where('recipe_id', $recipe->id)
     				->where('id', $ingredient->id)
@@ -176,7 +177,8 @@ class RecipeController extends Controller
     	$directionsUpdated = [];
 
     	foreach ($request->directions as $direction) {
-    		if (isset($direction['id'])) {
+    		
+            if (isset($direction->id)) {
     			//update
     			RecipeDirection::where('recipe_id', $recipe->id)
     				->where('id', $direction->id)
@@ -186,9 +188,11 @@ class RecipeController extends Controller
 
     		} else {
     			//new
-    			$directions[] = new RecipeDirection($ingredient);
+    			$directions[] = new RecipeDirection($direction);
     		}
     	}
+
+
 
 
     	$recipe->name = $request->name;
