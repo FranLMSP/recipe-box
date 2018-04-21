@@ -4,12 +4,16 @@ import VueRouter from 'vue-router'
 import Register from '../views/Auth/Register.vue'
 import Login from '../views/Auth/Login.vue'
 
+import RecipeIndex from '../views/Recipe/Index.vue'
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({
 	routes: [
 		{path: '/register', component: Register},
-		{path: '/login', component: Login}
+		{path: '/login', component: Login},
+
+		{path: '/recipes', component: RecipeIndex}
 	]
 })
 

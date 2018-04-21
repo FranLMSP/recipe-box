@@ -1639,6 +1639,8 @@ module.exports = {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_flash__ = __webpack_require__("./resources/assets/js/helpers/flash.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_auth__ = __webpack_require__("./resources/assets/js/store/auth.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_api__ = __webpack_require__("./resources/assets/js/helpers/api.js");
 //
 //
 //
@@ -1671,15 +1673,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+	created: function created() {
+		__WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].initialize();
+	},
 	data: function data() {
 		return {
-			flash: __WEBPACK_IMPORTED_MODULE_0__helpers_flash__["a" /* default */].state
+			flash: __WEBPACK_IMPORTED_MODULE_0__helpers_flash__["a" /* default */].state,
+			auth: __WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].state
 		};
+	},
+
+	computed: {
+		check: function check() {
+			return this.auth.api_token && this.auth.user_id;
+		}
+	},
+	methods: {
+		logout: function logout() {
+			var _this = this;
+
+			Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["a" /* post */])('/api/logout').then(function (res) {
+				if (res.data.logged_out) {
+					__WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].remove();
+					__WEBPACK_IMPORTED_MODULE_0__helpers_flash__["a" /* default */].setSuccess('Bye!');
+					_this.$router.push('/login');
+				}
+			}).catch(function (err) {});
+		}
 	}
 });
 
@@ -1690,8 +1717,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api__ = __webpack_require__("./resources/assets/js/helpers/api.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_flash__ = __webpack_require__("./resources/assets/js/helpers/flash.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_flash__ = __webpack_require__("./resources/assets/js/helpers/flash.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_auth__ = __webpack_require__("./resources/assets/js/store/auth.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_api__ = __webpack_require__("./resources/assets/js/helpers/api.js");
 //
 //
 //
@@ -1717,6 +1745,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -1741,9 +1770,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.isProcessing = true;
 			this.error = {};
 
-			Object(__WEBPACK_IMPORTED_MODULE_0__helpers_api__["a" /* post */])('/api/login', this.form).then(function (res) {
+			Object(__WEBPACK_IMPORTED_MODULE_2__helpers_api__["a" /* post */])('/api/login', this.form).then(function (res) {
 				if (res.data.authenticated) {
-					__WEBPACK_IMPORTED_MODULE_1__helpers_flash__["a" /* default */].setSuccess('Welcome');
+					__WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].set(res.data.api_token, res.data.user_id);
+
+					__WEBPACK_IMPORTED_MODULE_0__helpers_flash__["a" /* default */].setSuccess('Welcome');
 					_this.$router.push('/');
 				}
 				_this.isProcessing = false;
@@ -2575,34 +2606,49 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("ul", { staticClass: "navbar__list" }, [
-          _c(
-            "li",
-            { staticClass: "navbar__item" },
-            [_c("router-link", { attrs: { to: "/login" } }, [_vm._v("LOGIN")])],
-            1
-          ),
+          !_vm.check
+            ? _c(
+                "li",
+                { staticClass: "navbar__item" },
+                [
+                  _c("router-link", { attrs: { to: "/login" } }, [
+                    _vm._v("LOGIN")
+                  ])
+                ],
+                1
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "navbar__item" },
-            [
-              _c("router-link", { attrs: { to: "/register" } }, [
-                _vm._v("REGISTER")
-              ])
-            ],
-            1
-          ),
+          !_vm.check
+            ? _c(
+                "li",
+                { staticClass: "navbar__item" },
+                [
+                  _c("router-link", { attrs: { to: "/register" } }, [
+                    _vm._v("REGISTER")
+                  ])
+                ],
+                1
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "navbar__item" },
-            [
-              _c("router-link", { attrs: { to: "/logout" } }, [
-                _vm._v("LOGOUT")
+          _vm.check
+            ? _c("li", { staticClass: "navbar__item" }, [
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        $event.stopPropagation()
+                        return _vm.logout($event)
+                      }
+                    }
+                  },
+                  [_vm._v("LOGOUT")]
+                )
               ])
-            ],
-            1
-          )
+            : _vm._e()
         ])
       ]),
       _vm._v(" "),
@@ -16508,13 +16554,18 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 /* harmony export (immutable) */ __webpack_exports__["a"] = post;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__("./node_modules/axios/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_auth__ = __webpack_require__("./resources/assets/js/store/auth.js");
+
 
 
 function post(url, data) {
 	return __WEBPACK_IMPORTED_MODULE_0_axios___default()({
 		method: 'POST',
 		url: url,
-		data: data
+		data: data,
+		headers: {
+			'Authorization': 'Bearer ' + __WEBPACK_IMPORTED_MODULE_1__store_auth__["a" /* default */].state.api_token
+		}
 	});
 }
 
@@ -16568,6 +16619,9 @@ function post(url, data) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__views_Auth_Register_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__views_Auth_Register_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_Auth_Login_vue__ = __webpack_require__("./resources/assets/js/views/Auth/Login.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_Auth_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__views_Auth_Login_vue__);
+throw new Error("Cannot find module \"../views/Recipe/Index.vue\"");
+
+
 
 
 
@@ -16577,10 +16631,38 @@ function post(url, data) {
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
 
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
-	routes: [{ path: '/register', component: __WEBPACK_IMPORTED_MODULE_2__views_Auth_Register_vue___default.a }, { path: '/login', component: __WEBPACK_IMPORTED_MODULE_3__views_Auth_Login_vue___default.a }]
+	routes: [{ path: '/register', component: __WEBPACK_IMPORTED_MODULE_2__views_Auth_Register_vue___default.a }, { path: '/login', component: __WEBPACK_IMPORTED_MODULE_3__views_Auth_Login_vue___default.a }, { path: '/recipes', component: __WEBPACK_IMPORTED_MODULE_4__views_Recipe_Index_vue___default.a }]
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/auth.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+	state: {
+		api_token: null,
+		user_id: null
+	},
+	initialize: function initialize() {
+		this.state.api_token = localStorage.getItem('api_token');
+		this.state.user_id = parseInt(localStorage.getItem('user_id'));
+	},
+	set: function set(api_token, user_id) {
+		localStorage.setItem('api_token', api_token);
+		localStorage.setItem('user_id', user_id);
+		this.initialize();
+	},
+	remove: function remove() {
+		localStorage.removeItem('api_token');
+		localStorage.removeItem('user_id');
+
+		this.initialize();
+	}
+});
 
 /***/ }),
 
